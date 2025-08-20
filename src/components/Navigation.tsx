@@ -57,12 +57,16 @@ const Navigation = () => {
               </>
             ) : (
               <div className="hidden md:flex items-center space-x-3">
-                <Button variant="ghost" size="sm" className="text-brand-orange hover:text-brand-orange-hover">
-                  Sign In
-                </Button>
-                <Button variant="brand" size="sm">
-                  Sign Up
-                </Button>
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm" className="text-brand-orange hover:text-brand-orange-hover">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="brand" size="sm">
+                    Sign Up
+                  </Button>
+                </Link>
               </div>
             )}
 

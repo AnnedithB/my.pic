@@ -1,6 +1,7 @@
 import { ArrowRight, TrendingUp, MessageCircle, Share2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
 import trendingContent from "@/assets/trending-content.jpg";
 
@@ -61,13 +62,17 @@ const HomePage = () => {
                 connect with others, and explore endless entertainment.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="brand" size="lg" className="text-lg">
-                  Sign Up Free
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-                <Button variant="outline" size="lg" className="text-lg border-brand-orange text-brand-orange hover:bg-brand-orange-light">
-                  Explore Now
-                </Button>
+                <Link to="/auth">
+                  <Button variant="brand" size="lg" className="text-lg">
+                    Sign Up Free
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link to="/explore">
+                  <Button variant="outline" size="lg" className="text-lg border-brand-orange text-brand-orange hover:bg-brand-orange-light">
+                    Explore Now
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="relative">
@@ -109,9 +114,11 @@ const HomePage = () => {
               <TrendingUp className="w-8 h-8 text-brand-orange mr-3" />
               Trending Now
             </h2>
-            <Button variant="outline" className="border-brand-orange text-brand-orange">
-              View All
-            </Button>
+            <Link to="/explore">
+              <Button variant="outline" className="border-brand-orange text-brand-orange">
+                View All
+              </Button>
+            </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingPosts.map((post) => (
@@ -159,9 +166,11 @@ const HomePage = () => {
           <p className="text-xl text-white/90 mb-8">
             Share your creativity, discover amazing content, and connect with a global community.
           </p>
-          <Button variant="secondary" size="lg" className="text-lg">
-            Get Started Today
-          </Button>
+          <Link to="/auth">
+            <Button variant="secondary" size="lg" className="text-lg">
+              Get Started Today
+            </Button>
+          </Link>
         </div>
       </section>
     </div>
