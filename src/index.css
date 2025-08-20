@@ -2,41 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Imgur Redesign Design System - White & Orange Theme */
 
 @layer base {
   :root {
+    /* Core Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 7%;
+    
+    /* Orange Brand Colors */
+    --brand-orange: 25 100% 50%;
+    --brand-orange-hover: 25 100% 45%;
+    --brand-orange-light: 25 100% 95%;
+    
+    /* Gray Scale */
+    --gray-50: 0 0% 98%;
+    --gray-100: 0 0% 96%;
+    --gray-200: 0 0% 93%;
+    --gray-300: 0 0% 87%;
+    --gray-400: 0 0% 64%;
+    --gray-500: 0 0% 45%;
+    --gray-600: 0 0% 32%;
+    --gray-700: 0 0% 25%;
+    --gray-800: 0 0% 15%;
+    --gray-900: 0 0% 7%;
 
+    /* Component Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 7%;
+    --card-border: 0 0% 93%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 25 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 25 100% 45%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --secondary-hover: 0 0% 93%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 25 100% 95%;
+    --accent-foreground: 0 0% 15%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --border: 0 0% 93%;
+    --input: 0 0% 100%;
+    --input-border: 0 0% 87%;
+    --ring: 25 100% 50%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
+    --shadow-orange: 0 4px 14px 0 hsl(25 100% 50% / 0.15);
+    
+    /* Gradients */
+    --gradient-orange: linear-gradient(135deg, hsl(25 100% 50%), hsl(35 100% 55%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +125,37 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/* Custom Component Styles */
+@layer components {
+  .imgur-card {
+    @apply bg-card border border-card-border rounded-xl shadow-sm transition-all duration-200;
+  }
+  
+  .imgur-card:hover {
+    @apply shadow-lg transform scale-[1.02];
+  }
+  
+  .orange-glow:hover {
+    box-shadow: var(--shadow-orange);
+  }
+  
+  .gradient-orange {
+    background: var(--gradient-orange);
+  }
+  
+  .text-brand {
+    color: hsl(var(--brand-orange));
+  }
+  
+  .bg-brand {
+    background-color: hsl(var(--brand-orange));
+  }
+  
+  .border-brand {
+    border-color: hsl(var(--brand-orange));
   }
 }
