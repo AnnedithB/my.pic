@@ -4,13 +4,117 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    if (isSignUp && !formData.username) {
+      newErrors.username = "Username is required";
+    } else if (isSignUp && formData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (isSignUp && formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      if (isSignUp) {
+        // Handle sign up
+        toast({
+          title: "Account created successfully!",
+          description: "Welcome to my.pic! You can now sign in.",
+        });
+        setIsSignUp(false);
+        setFormData({ email: "", username: "", password: "", confirmPassword: "" });
+      } else {
+        // Handle sign in
+        const token = "mock-jwt-token-" + Date.now(); // In real app, this would come from your API
+        localStorage.setItem('authToken', token);
+        toast({
+          title: "Signed in successfully!",
+          description: "Welcome back to my.pic!",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: isSignUp ? "Failed to create account. Please try again." : "Failed to sign in. Please check your credentials.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleToggleForm = () => {
+    setIsSignUp(!isSignUp);
+    setFormData({ email: "", username: "", password: "", confirmPassword: "" });
+    setErrors({});
+  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -47,14 +151,22 @@ const Auth = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Username/Email Field */}
             <div>
               <Input
                 type="email"
+                name="email"
                 placeholder={isSignUp ? "Email address" : "Username or email"}
-                className="h-12 focus:border-brand-orange focus:ring-brand-orange"
+                className={`h-12 focus:border-brand-orange focus:ring-brand-orange ${
+                  errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                }`}
+                value={formData.email}
+                onChange={handleInputChange}
               />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              )}
             </div>
 
             {/* Username Field (Sign Up only) */}
@@ -62,9 +174,17 @@ const Auth = () => {
               <div>
                 <Input
                   type="text"
+                  name="username"
                   placeholder="Choose a username"
-                  className="h-12 focus:border-brand-orange focus:ring-brand-orange"
+                  className={`h-12 focus:border-brand-orange focus:ring-brand-orange ${
+                    errors.username ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  value={formData.username}
+                  onChange={handleInputChange}
                 />
+                {errors.username && (
+                  <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+                )}
               </div>
             )}
 
@@ -72,8 +192,13 @@ const Auth = () => {
             <div className="relative">
               <Input
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder="Password"
-                className="h-12 pr-12 focus:border-brand-orange focus:ring-brand-orange"
+                className={`h-12 pr-12 focus:border-brand-orange focus:ring-brand-orange ${
+                  errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                }`}
+                value={formData.password}
+                onChange={handleInputChange}
               />
               <button
                 type="button"
@@ -82,6 +207,9 @@ const Auth = () => {
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+              )}
             </div>
 
             {/* Confirm Password Field (Sign Up only) */}
@@ -89,8 +217,13 @@ const Auth = () => {
               <div className="relative">
                 <Input
                   type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
                   placeholder="Confirm password"
-                  className="h-12 pr-12 focus:border-brand-orange focus:ring-brand-orange"
+                  className={`h-12 pr-12 focus:border-brand-orange focus:ring-brand-orange ${
+                    errors.confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
                 />
                 <button
                   type="button"
@@ -99,6 +232,9 @@ const Auth = () => {
                 >
                   {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+                )}
               </div>
             )}
 
@@ -114,11 +250,20 @@ const Auth = () => {
 
             {/* Submit Button */}
             <Button 
+              type="submit"
               variant="brand" 
               size="lg" 
               className="w-full h-12 text-lg hover:scale-[1.02] transition-transform"
+              disabled={isLoading}
             >
-              {isSignUp ? "Sign Up" : "Sign In"}
+              {isLoading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  {isSignUp ? "Creating Account..." : "Signing In..."}
+                </div>
+              ) : (
+                isSignUp ? "Sign Up" : "Sign In"
+              )}
             </Button>
 
             {/* Forgot Password (Sign In only) */}
@@ -177,7 +322,8 @@ const Auth = () => {
             <p className="text-sm text-gray-600">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
               <button
-                onClick={() => setIsSignUp(!isSignUp)}
+                type="button"
+                onClick={handleToggleForm}
                 className="text-brand-orange hover:underline font-medium"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
