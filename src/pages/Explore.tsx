@@ -4,11 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
-import meme1 from "@/assets/meme-1.jpg";
-import gaming1 from "@/assets/gaming-1.jpg";
-import animals1 from "@/assets/animals-1.jpg";
-import art1 from "@/assets/art-1.jpg";
-import trendingContent from "@/assets/trending-content.jpg";
 
 const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -29,7 +24,6 @@ const Explore = () => {
     {
       id: 1,
       title: "When you finally understand a programming joke",
-      image: meme1,
       upvotes: 12500,
       downvotes: 234,
       comments: 342,
@@ -39,7 +33,6 @@ const Explore = () => {
     {
       id: 2,
       title: "Epic gaming moment compilation",
-      image: gaming1,
       upvotes: 8900,
       downvotes: 156,
       comments: 189,
@@ -49,7 +42,6 @@ const Explore = () => {
     {
       id: 3,
       title: "Adorable animals being adorable",
-      image: animals1,
       upvotes: 15200,
       downvotes: 89,
       comments: 423,
@@ -59,7 +51,6 @@ const Explore = () => {
     {
       id: 4,
       title: "Digital art that will blow your mind",
-      image: art1,
       upvotes: 6700,
       downvotes: 123,
       comments: 156,
@@ -69,7 +60,6 @@ const Explore = () => {
     {
       id: 5,
       title: "This meme hits different",
-      image: trendingContent,
       upvotes: 9800,
       downvotes: 234,
       comments: 278,
@@ -79,7 +69,6 @@ const Explore = () => {
     {
       id: 6,
       title: "Random internet gold",
-      image: trendingContent,
       upvotes: 4500,
       downvotes: 167,
       comments: 89,
@@ -154,7 +143,7 @@ const Explore = () => {
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-6">
               <Link to="/" className="text-xl font-bold text-white">
-                imgur
+                my.pic
               </Link>
               <h1 className="text-lg font-semibold text-white">Explore Now</h1>
             </div>
@@ -211,22 +200,24 @@ const Explore = () => {
               {posts.map((post) => (
                 <Card 
                   key={post.id} 
-                  className="imgur-card break-inside-avoid mb-6 overflow-hidden group cursor-pointer orange-glow"
+                  className="imgur-card break-inside-avoid mb-6 overflow-hidden group orange-glow"
                 >
-                  {/* Image */}
-                  <div className="relative">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${post.height}`}
-                    />
-                    
-                    {/* Title Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                      <h3 className="font-bold text-white text-sm leading-tight">
+                  {/* Placeholder Media */}
+                  <Link to={`/post/${post.id}`}>
+                    <div className="relative cursor-pointer">
+                      <div className={`w-full bg-gray-300 flex items-center justify-center group-hover:bg-gray-400 transition-colors duration-300 ${post.height}`}>
+                        <span className="text-gray-600 text-sm">Media Content</span>
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Title Bar */}
+                  <div className="p-3 bg-gray-100">
+                    <Link to={`/post/${post.id}`}>
+                      <h3 className="font-bold text-gray-900 text-sm leading-tight cursor-pointer hover:text-brand-orange transition-colors">
                         {post.title}
                       </h3>
-                    </div>
+                    </Link>
                   </div>
 
                   {/* Interaction Bar */}
@@ -235,7 +226,10 @@ const Explore = () => {
                       <div className="flex items-center space-x-4">
                         {/* Upvote */}
                         <button
-                          onClick={() => handleVote(post.id, "up")}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleVote(post.id, "up");
+                          }}
                           className={`flex items-center space-x-1 transition-colors ${
                             post.userVote === "up" 
                               ? "text-brand-orange" 
@@ -250,7 +244,10 @@ const Explore = () => {
 
                         {/* Downvote */}
                         <button
-                          onClick={() => handleVote(post.id, "down")}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleVote(post.id, "down");
+                          }}
                           className={`transition-colors ${
                             post.userVote === "down" 
                               ? "text-red-500" 
@@ -261,10 +258,12 @@ const Explore = () => {
                         </button>
 
                         {/* Comments */}
-                        <div className="flex items-center space-x-1 text-gray-500">
-                          <MessageCircle className="w-5 h-5" />
-                          <span className="text-sm">{post.comments}</span>
-                        </div>
+                        <Link to={`/post/${post.id}`}>
+                          <div className="flex items-center space-x-1 text-gray-500 hover:text-brand-orange transition-colors cursor-pointer">
+                            <MessageCircle className="w-5 h-5" />
+                            <span className="text-sm">{post.comments}</span>
+                          </div>
+                        </Link>
                       </div>
 
                       {/* Share */}

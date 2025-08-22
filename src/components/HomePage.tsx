@@ -92,15 +92,16 @@ const HomePage = () => {
           <h2 className="text-3xl font-bold text-center mb-12">Explore Categories</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {categories.map((category) => (
-              <Card
-                key={category.name}
-                className="imgur-card p-6 text-center cursor-pointer orange-glow group"
-              >
+              <Link to="/explore" key={category.name}>
+                <Card
+                  className="imgur-card p-6 text-center cursor-pointer orange-glow group"
+                >
                 <div className={`w-16 h-16 ${category.color} rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform`}>
                   {category.icon}
                 </div>
-                <h3 className="font-semibold text-gray-900">{category.name}</h3>
-              </Card>
+                  <h3 className="font-semibold text-gray-900">{category.name}</h3>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -122,7 +123,8 @@ const HomePage = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingPosts.map((post) => (
-              <Card key={post.id} className="imgur-card overflow-hidden group cursor-pointer">
+              <Link to={`/post/${post.id}`} key={post.id}>
+                <Card className="imgur-card overflow-hidden group cursor-pointer">
                 <div className="relative">
                   <img
                     src={post.image}
@@ -152,6 +154,7 @@ const HomePage = () => {
                   </div>
                 </div>
               </Card>
+              </Link>
             ))}
           </div>
         </div>

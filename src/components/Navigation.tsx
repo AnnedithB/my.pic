@@ -15,7 +15,7 @@ const Navigation = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link to="/" className="text-2xl font-bold">
-                <span className="text-brand-orange">imgur</span>
+                <span className="text-brand-orange">my.pic</span>
               </Link>
             </div>
           </div>
