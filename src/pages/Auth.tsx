@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -13,6 +14,8 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      <Navigation />
+      
       {/* Abstract Orange Pattern */}
       <div className="absolute top-0 right-0 w-1/3 h-1/2 opacity-10">
         <div className="absolute inset-0 bg-gradient-to-bl from-brand-orange via-yellow-400 to-transparent rounded-full transform rotate-12 scale-150"></div>

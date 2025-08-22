@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 
 const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -136,64 +137,45 @@ const Explore = () => {
   }, [loading, posts]);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Top Navigation */}
-      <div className="sticky top-0 z-50 bg-brand-orange">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
-            <div className="flex items-center space-x-6">
-              <Link to="/" className="text-xl font-bold text-white">
-                my.pic
-              </Link>
-              <h1 className="text-lg font-semibold text-white">Explore Now</h1>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <Select defaultValue="trending">
-                <SelectTrigger className="w-32 bg-white/10 border-white/20 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="trending">Trending</SelectItem>
-                  <SelectItem value="fresh">Fresh</SelectItem>
-                  <SelectItem value="viral">Most Viral</SelectItem>
-                  <SelectItem value="top">Top</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
-                <Filter className="w-4 h-4" />
-              </Button>
-            </div>
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <Navigation />
+      
+      {/* Animated Background Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-brand-orange/5 to-yellow-400/5 rounded-full blur-3xl animate-float-slow"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-l from-gray-200/10 to-brand-orange/5 rounded-full blur-3xl animate-float-medium"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-tr from-brand-orange/3 to-gray-100/5 rounded-full blur-2xl animate-float-fast"></div>
+      </div>
+      
+      {/* Categories Section */}
+      <div className="relative z-10 bg-background/80 backdrop-blur-sm border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Categories</h2>
+            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-brand-orange">
+              <Filter className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="flex overflow-x-auto space-x-3 scrollbar-hide">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 ${
+                  selectedCategory === category.id 
+                    ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/25" 
+                    : "bg-white text-brand-orange border border-brand-orange/20 hover:bg-brand-orange-light hover:shadow-md"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex gap-6">
-          {/* Side Filters (Desktop) */}
-          <div className="hidden lg:block w-64 space-y-4">
-            <div className="sticky top-20">
-              <h3 className="font-semibold text-gray-900 mb-4">Categories</h3>
-              <div className="space-y-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category.id}
-                    variant={selectedCategory === category.id ? "brand" : "outline"}
-                    className={`w-full justify-start ${
-                      selectedCategory === category.id 
-                        ? "bg-brand-orange text-white" 
-                        : "border-brand-orange text-brand-orange hover:bg-brand-orange-light"
-                    }`}
-                    onClick={() => setSelectedCategory(category.id)}
-                  >
-                    {category.name}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Masonry Grid */}
           <div className="flex-1">
             <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
