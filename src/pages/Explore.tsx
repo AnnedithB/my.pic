@@ -12,13 +12,13 @@ const Explore = () => {
   const [loading, setLoading] = useState(false);
 
   const categories = [
-    { id: "all", name: "All", active: true },
-    { id: "memes", name: "Memes" },
-    { id: "gaming", name: "Gaming" },
-    { id: "animals", name: "Animals" },
-    { id: "art", name: "Art" },
-    { id: "tech", name: "Tech" },
-    { id: "random", name: "Random" },
+    { id: "all", name: "All", emoji: "🌟", active: true },
+    { id: "memes", name: "Memes", emoji: "😂" },
+    { id: "gaming", name: "Gaming", emoji: "🎮" },
+    { id: "animals", name: "Animals", emoji: "🐶" },
+    { id: "art", name: "Art", emoji: "🎨" },
+    { id: "tech", name: "Tech", emoji: "💻" },
+    { id: "random", name: "Random", emoji: "🎲" },
   ];
 
   const mockPosts = [
@@ -142,32 +142,35 @@ const Explore = () => {
       
       {/* Animated Background Blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-brand-orange/5 to-yellow-400/5 rounded-full blur-3xl animate-float-slow"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-l from-gray-200/10 to-brand-orange/5 rounded-full blur-3xl animate-float-medium"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-tr from-brand-orange/3 to-gray-100/5 rounded-full blur-2xl animate-float-fast"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-brand-orange/8 to-yellow-400/8 blur-3xl animate-blob-squish"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-l from-gray-200/15 to-brand-orange/8 blur-3xl animate-float-medium blob-shape"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-gradient-to-tr from-brand-orange/6 to-gray-100/8 blur-2xl animate-float-fast blob-shape"></div>
+        <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-gradient-to-bl from-brand-orange/4 to-gray-300/6 blur-3xl animate-blob-squish blob-shape" style={{animationDelay: '3s'}}></div>
       </div>
       
       {/* Categories Section */}
-      <div className="relative z-10 bg-background/80 backdrop-blur-sm border-b border-gray-100">
+      <div className="relative z-10 bg-background/90 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Categories</h2>
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-brand-orange">
+            <h2 className="text-lg font-semibold text-gray-900 chunky-text">Explore Categories</h2>
+            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-brand-orange hover-pop">
               <Filter className="w-4 h-4" />
             </Button>
           </div>
-          <div className="flex overflow-x-auto space-x-3 scrollbar-hide">
-            {categories.map((category) => (
+          <div className="flex overflow-x-auto space-x-3 scrollbar-hide pb-2">
+            {categories.map((category, index) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 ${
+                className={`flex-shrink-0 flex items-center space-x-2 px-5 py-3 rounded-full text-sm font-bold transition-all duration-300 hover:scale-110 hover-pop relative ${
                   selectedCategory === category.id 
-                    ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/25" 
-                    : "bg-white text-brand-orange border border-brand-orange/20 hover:bg-brand-orange-light hover:shadow-md"
-                }`}
+                    ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/30 animate-ripple" 
+                    : "bg-white text-brand-orange border-2 border-brand-orange/30 hover:bg-brand-orange-light hover:shadow-md hover:border-brand-orange/50"
+                } ${index % 2 === 0 ? 'animate-tilt-left' : 'animate-tilt-right'}`}
+                style={{animationDelay: `${index * 0.2}s`}}
               >
-                {category.name}
+                <span className="text-lg">{category.emoji}</span>
+                <span>{category.name}</span>
               </button>
             ))}
           </div>
@@ -179,24 +182,29 @@ const Explore = () => {
           {/* Masonry Grid */}
           <div className="flex-1">
             <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <Card 
                   key={post.id} 
-                  className="imgur-card break-inside-avoid mb-6 overflow-hidden group orange-glow"
+                  className={`imgur-card break-inside-avoid mb-6 overflow-hidden group hover-pop hover:animate-ripple transition-all duration-300 ${
+                    index % 3 === 0 ? 'animate-tilt-left' : index % 3 === 1 ? 'animate-tilt-right' : ''
+                  }`}
                 >
                   {/* Placeholder Media */}
                   <Link to={`/post/${post.id}`}>
-                    <div className="relative cursor-pointer">
-                      <div className={`w-full bg-gray-300 flex items-center justify-center group-hover:bg-gray-400 transition-colors duration-300 ${post.height}`}>
-                        <span className="text-gray-600 text-sm">Media Content</span>
+                    <div className="relative cursor-pointer overflow-hidden">
+                      <div className={`w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center group-hover:from-gray-300 group-hover:to-gray-400 transition-all duration-500 ${post.height} ${
+                        index % 4 === 0 ? 'blob-shape' : 'rounded-t-xl'
+                      }`}>
+                        <span className="text-gray-600 text-sm font-medium">📸 Media Content</span>
                       </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   </Link>
 
                   {/* Title Bar */}
-                  <div className="p-3 bg-gray-100">
+                  <div className="p-3 bg-gray-50 border-b border-gray-100">
                     <Link to={`/post/${post.id}`}>
-                      <h3 className="font-bold text-gray-900 text-sm leading-tight cursor-pointer hover:text-brand-orange transition-colors">
+                      <h3 className="font-bold text-gray-900 text-sm leading-tight cursor-pointer hover:text-brand-orange transition-colors chunky-text">
                         {post.title}
                       </h3>
                     </Link>
@@ -212,10 +220,10 @@ const Explore = () => {
                             e.preventDefault();
                             handleVote(post.id, "up");
                           }}
-                          className={`flex items-center space-x-1 transition-colors ${
+                          className={`flex items-center space-x-1 transition-all duration-200 hover:scale-110 ${
                             post.userVote === "up" 
-                              ? "text-brand-orange" 
-                              : "text-gray-500 hover:text-brand-orange"
+                              ? "text-brand-orange animate-bounce-up" 
+                              : "text-gray-500 hover:text-brand-orange hover:animate-bounce-up"
                           }`}
                         >
                           <ArrowUp className="w-5 h-5" />
@@ -230,10 +238,10 @@ const Explore = () => {
                             e.preventDefault();
                             handleVote(post.id, "down");
                           }}
-                          className={`transition-colors ${
+                          className={`transition-all duration-200 hover:scale-110 ${
                             post.userVote === "down" 
-                              ? "text-red-500" 
-                              : "text-gray-500 hover:text-red-500"
+                              ? "text-red-500 animate-shake" 
+                              : "text-gray-500 hover:text-red-500 hover:animate-shake"
                           }`}
                         >
                           <ArrowDown className="w-5 h-5" />
@@ -241,7 +249,7 @@ const Explore = () => {
 
                         {/* Comments */}
                         <Link to={`/post/${post.id}`}>
-                          <div className="flex items-center space-x-1 text-gray-500 hover:text-brand-orange transition-colors cursor-pointer">
+                          <div className="flex items-center space-x-1 text-gray-500 hover:text-brand-orange transition-all cursor-pointer hover:scale-110 hover:animate-wiggle">
                             <MessageCircle className="w-5 h-5" />
                             <span className="text-sm">{post.comments}</span>
                           </div>
@@ -249,7 +257,7 @@ const Explore = () => {
                       </div>
 
                       {/* Share */}
-                      <Button variant="ghost" size="sm" className="text-gray-500 hover:text-brand-orange">
+                      <Button variant="ghost" size="sm" className="text-gray-500 hover:text-brand-orange hover-pop hover:animate-wiggle">
                         <Share2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -273,7 +281,7 @@ const Explore = () => {
         <Button
           variant="brand"
           size="lg"
-          className="fixed bottom-6 right-6 md:hidden w-14 h-14 rounded-full shadow-lg hover:scale-110 transition-transform"
+          className="fixed bottom-6 right-6 md:hidden w-14 h-14 rounded-full shadow-lg hover:scale-110 transition-all animate-wiggle hover:animate-bounce-up z-50"
         >
           <Plus className="w-6 h-6" />
         </Button>

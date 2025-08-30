@@ -170,7 +170,7 @@
   }
 }
 
-/* Floating Animation Keyframes */
+/* Quirky Animation Keyframes */
 @keyframes float-slow {
   0%, 100% {
     transform: translateY(0px) scale(1);
@@ -201,6 +201,47 @@
   }
 }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-3deg) scale(1.05); }
+  75% { transform: rotate(3deg) scale(1.05); }
+}
+
+@keyframes bounce-up {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.2); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-2deg); }
+  75% { transform: translateX(3px) rotate(2deg); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--brand-orange) / 0.3); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 10px hsl(var(--brand-orange) / 0.1); }
+  100% { transform: scale(1); box-shadow: 0 0 0 20px hsl(var(--brand-orange) / 0); }
+}
+
+@keyframes blob-squish {
+  0%, 100% { border-radius: 50% 40% 60% 30%; transform: scale(1) rotate(0deg); }
+  25% { border-radius: 40% 60% 30% 50%; transform: scale(1.1) rotate(90deg); }
+  50% { border-radius: 60% 30% 50% 40%; transform: scale(0.9) rotate(180deg); }
+  75% { border-radius: 30% 50% 40% 60%; transform: scale(1.05) rotate(270deg); }
+}
+
+@keyframes tilt-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-2deg); }
+}
+
+@keyframes tilt-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(2deg); }
+}
+
 @layer utilities {
   .animate-float-slow {
     animation: float-slow 8s ease-in-out infinite;
@@ -212,5 +253,51 @@
   
   .animate-float-fast {
     animation: float-fast 4s ease-in-out infinite;
+  }
+  
+  .animate-wiggle {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+  
+  .animate-bounce-up {
+    animation: bounce-up 0.3s ease-out;
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  .animate-ripple {
+    animation: ripple 0.6s ease-out;
+  }
+  
+  .animate-blob-squish {
+    animation: blob-squish 10s ease-in-out infinite;
+  }
+  
+  .animate-tilt-left {
+    animation: tilt-left 3s ease-in-out infinite;
+  }
+  
+  .animate-tilt-right {
+    animation: tilt-right 3s ease-in-out infinite;
+  }
+  
+  .hover-pop {
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .hover-pop:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  .blob-shape {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  
+  .chunky-text {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
   }
 }

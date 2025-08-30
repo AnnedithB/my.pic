@@ -37,23 +37,31 @@ const Navigation = () => {
           {/* Left side - Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link to="/" className="text-2xl font-bold">
-                <span className={isHomePage ? "text-brand-orange" : "text-white"}>my.pic</span>
+              <Link to="/" className="text-2xl font-bold group flex items-center space-x-2">
+                <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center hover-pop group-hover:animate-wiggle">
+                  <span className="text-white font-bold text-lg">P</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className={`chunky-text ${isHomePage ? "text-brand-orange" : "text-white"}`}>my.pic</span>
+                  <span className={`text-xs italic ${isHomePage ? "text-gray-500" : "text-white/70"}`}>
+                    the internet's weird playground
+                  </span>
+                </div>
               </Link>
             </div>
           </div>
 
           {/* Center - Search Bar */}
           <div className="hidden md:block flex-1 max-w-md mx-8">
-            <div className="relative">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${isHomePage ? 'text-gray-400' : 'text-white/70'}`} />
+            <div className="relative group">
+              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 transition-all group-focus-within:scale-110 ${isHomePage ? 'text-gray-400' : 'text-white/70'}`} />
               <Input
                 type="text"
                 placeholder="Search photos, memes, videos…"
-                className={`pl-10 ${
+                className={`pl-10 transition-all duration-300 hover:scale-[1.02] ${
                   isHomePage 
-                    ? 'bg-gray-50 border-gray-200 focus:bg-background focus:border-brand-orange focus:ring-brand-orange' 
-                    : 'bg-white/10 border-white/20 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white focus:ring-white'
+                    ? 'bg-gray-50 border-gray-200 focus:bg-background focus:border-brand-orange focus:ring-brand-orange shadow-sm hover:shadow-md' 
+                    : 'bg-white/10 border-white/20 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white focus:ring-white hover:bg-white/20'
                 }`}
               />
             </div>
@@ -62,7 +70,7 @@ const Navigation = () => {
           {/* Right side - Actions */}
           <div className="flex items-center space-x-4">
             <Link to="/upload">
-              <Button variant={isHomePage ? "brand" : "secondary"} size="sm">
+              <Button variant={isHomePage ? "brand" : "secondary"} size="sm" className="hover-pop hover:animate-bounce-up">
                 <Upload className="w-4 h-4 mr-2" />
                 Upload
               </Button>
@@ -70,14 +78,14 @@ const Navigation = () => {
 
             {isSignedIn ? (
               <>
-                <Button variant="ghost" size="sm" className={isHomePage ? "" : "text-white hover:bg-white/10"}>
+                <Button variant="ghost" size="sm" className={`hover-pop hover:animate-wiggle ${isHomePage ? "" : "text-white hover:bg-white/10"}`}>
                   <Bell className="w-5 h-5" />
                 </Button>
-                <Button variant="ghost" size="sm" className={isHomePage ? "" : "text-white hover:bg-white/10"}>
+                <Button variant="ghost" size="sm" className={`hover-pop hover:animate-wiggle ${isHomePage ? "" : "text-white hover:bg-white/10"}`}>
                   <MessageCircle className="w-5 h-5" />
                 </Button>
                 <Link to="/profile">
-                  <Button variant="ghost" size="sm" className={isHomePage ? "" : "text-white hover:bg-white/10"}>
+                  <Button variant="ghost" size="sm" className={`hover-pop hover:scale-110 ${isHomePage ? "" : "text-white hover:bg-white/10"}`}>
                     <User className="w-5 h-5" />
                   </Button>
                 </Link>
@@ -88,13 +96,13 @@ const Navigation = () => {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className={isHomePage ? "text-brand-orange hover:text-brand-orange-hover" : "text-white hover:bg-white/10"}
+                    className={`hover-pop hover:scale-110 transition-all ${isHomePage ? "text-brand-orange hover:text-brand-orange-hover" : "text-white hover:bg-white/10"}`}
                   >
                     Sign In
                   </Button>
                 </Link>
                 <Link to="/auth">
-                  <Button variant={isHomePage ? "brand" : "secondary"} size="sm">
+                  <Button variant={isHomePage ? "brand" : "secondary"} size="sm" className="hover-pop hover:scale-110">
                     Sign Up
                   </Button>
                 </Link>
